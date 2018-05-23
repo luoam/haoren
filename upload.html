@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="keywords" content="好人好事">
+    <meta name="description" content="好人好事">
+    <meta name="author" content="好人好事">
+    <title>好人好事</title>
+    <!-- Loading Bootstrap -->
+    <link href="http://static.anman.org/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://static.anman.org/Trumbowyg/ui/trumbowyg.min.css" type="text/css">
+    <link href="http://static.anman.org/static/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://static.anman.org/static/jquery/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://static.anman.org/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="http://static.anman.org/static/bootstrap/js/bootbox.min.js"></script>
+    <script src="http://static.anman.org/static/bootstrap/js/nebulas.js"></script>
+    <script src="http://static.anman.org/static/bootstrap/js/nebPay.js"></script>
+    <script src="http://static.anman.org/static/bootstrap/js/moment-with-locales.min.js"></script>
+    <script src="http://static.anman.org/static/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="http://static.anman.org/Trumbowyg/trumbowyg.min.js"></script>
+    <script src="http://static.anman.org/Trumbowyg/langs/zh_cn.min.js"></script>
+    <style type="text/css">
+
+
+        .noExtension {
+            margin: auto;
+            font-size: 23px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<style type="text/css">
+    .navbar-toggle .icon-bar{
+        background-color: #000;
+    }
+</style>
+<!-- Static navbar -->
+<nav class="navbar navbar-static-top" style="margin-bottom:1px;">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://www.luoam.com/hrhs/index.html"><b>好人好事</b></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="http://www.luoam.com/hrhs/upload.html"><b>上传好人好事材料</b></a></li>
+                <li><a href="http://www.luoam.com/hrhs/index.html"><b>查看</b></a></li>
+            </ul>
+            <div class="nav navbar-right">
+
+            </div>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<section id="noExtension" style="margin-top:1px;padding-bottom: 0px;background-color:red; color:#fff;display: none;">
+    <div class="container">
+        <div class="row">
+            <div class="noExtension col-md-12" id="noExtensiondiv">
+                注意: 请安装谷歌浏览器扩展<a target="_blank" href="https://github.com/ChengOrangeJu/WebExtensionWallet">WebExtensionWallet</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="haoren" style="margin-top:10px;padding-bottom: 10px;">
+    <div class="container">
+
+        <h3 style="text-align: center;">上传好人好事事迹材料</h3>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="title">标题</label>
+                    <input type="text" class="form-control" id="title" placeholder="" required>
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="content">备注</label>
+                    <textarea class="form-control" id="content" cols="8" rows="20" required></textarea>
+                    <p class="small">少于20000字</p>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <input type="button" class="btn-success btn-large form-control" id="submit" onclick="submit()" value="提交">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<footer class="bg-fff ">
+    <div class="container-fluid" style="border-top: 1px solid #ddd">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <h4 class="footer-title">Copyright © 2017-2050 <a href="http://www.luoam.com/hrhs/index.html">好人好事</a>. <a
+                        href="http://www.miibeian.gov.cn/">浙ICP备14037650号</a>
+                </h4>
+                <p><a href='#'>Go Top</a></p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<script>
+    if (typeof(webExtensionWallet) === "undefined") {
+        $("#noExtension").show();
+    }
+    $(document).ready(function () {
+        $("#content").trumbowyg({
+            lang: 'zh_cn'
+        });
+        $("textarea").keyup(function () {
+
+            var c = $(this).val();
+            if (c.length > 20000) {
+                c = c.substr(0, 20000);
+                $(this).val(c);
+            }
+            var last = 20000 - c.length;
+            $("p.small").text("还能输入" + last + "字");
+        });
+    });
+
+
+    var nebulas = require("nebulas"),
+        Utils = nebulas.Utils,
+        neb = new nebulas.Neb();
+    //Testnet:
+    // var ContractAddress = "n21ZHFYWktHVZCa9ZLUa4wCvdQtfdCLoUme";
+    // var chainId = "1001";
+    // var initAddress = "n1LRdxLWijiqci8zTF72o84y7npUBrizp8a";
+    // neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
+
+    //Mainnet:
+    var ContractAddress = "n1oitVkEAcM6DoK5a8R6d6fkCkWY4K7zMZZ";
+    var chainId = "1";
+    var initAddress = "n1Lvduf7mV6NBXwi43ahP3RqRKrnp6jHa8D";
+    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
+    var Amount = 0;
+
+    var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
+    var nebPay = new NebPay();
+
+    var submit = function () {
+        $("#submit").attr('disabled',true);
+        let result = [];
+        let title = $("#title").val();
+        let content = $("#content").val();
+        if (title==="" || content===""){
+            alert("不能为空");
+            return false;
+        }
+        result.push(title);
+        result.push(content);
+        let callArgs = JSON.stringify(result);
+        let callFunction = "submitfact";
+        nebPay.call(ContractAddress, Amount, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+            listener: cbPush        //设置listener, 处理交易返回信息
+        });
+    };
+    var cbPush = function (resp) {
+        console.log("response of push: " + JSON.stringify(resp))
+    };
+</script>
+</body>
+</html>
